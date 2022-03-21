@@ -1,49 +1,49 @@
 import random
 
 def quicksort(array, start, end):
-    if len(array) == 1:
+    if len(array) == 1: #base case
         return array
     if start < end:
-        q = randomized_partition(array, start, end)
-        quicksort(array, start, q-1)
-        quicksort(array, q+1, end)
+        q = randomized_partition(array, start, end) #get randomized pivot and partition around it
+        quicksort(array, start, q-1) #recurse on part of array smaller than pivot
+        quicksort(array, q+1, end) #recurse on part of array greater than pivot
 
 def randomized_partition(array, start, end):
-    i = random.randint(start, end)
-    array[start], array[i] = array[i], array[start]
-    return partition(array, start, end)
+    i = random.randint(start, end) #choose random element and swap it with end
+    array[end], array[i] = array[i], array[end]
+    return partition(array, start, end) #call partition on modified array
 
 def partition(array, start, end):
     i = start-1
-    x = array[end]
-    for j in range(start, end):
+    x = array[end] #choose end element as pivot
+    for j in range(start, end): #loop on elements
         if array[j] <= x:
-            i = i+1
-            array[j], array[i] = array[i], array[j]
-    array[i+1], array[end] = array[end], array[i+1]
+            i = i+1 #indicates right position of pivot so far and number of elements smaller than pivot
+            array[j], array[i] = array[i], array[j] #swap current element with element smaller than pivot
+    array[i+1], array[end] = array[end], array[i+1] #put pivot in its correct place
     return i+1
 
 def merge_sort(array, start, end):
     if start < end:
-        mid = start + (end - start) // 2
-        merge_sort(array, start, mid)
-        merge_sort(array, mid + 1, end)
-        merge(array, start, mid, end)
+        mid = start + (end - start) // 2  #same as (start + end)//2 but to prevent overflow
+        merge_sort(array, start, mid) #recurse on left part of array
+        merge_sort(array, mid + 1, end) #recurse on right part of array
+        merge(array, start, mid, end) #combining step
 
 def merge(array, start, mid, end):
-    n1 = mid - start + 1
-    n2 = end - mid
-    L = [0] * (n1)
-    R = [0] * (n2)
+    size1 = mid - start + 1
+    size2 = end - mid
+    L = [0] * (size1) #initialize L array with zeros
+    R = [0] * (size2) #initialize R array with zeros
 
-    for i in range(0, n1):
+    for i in range(0, size1): #copy left part of main array to L
         L[i] = array[start+i]
-    for i in range(0, end-mid):
+    for i in range(0, end-mid): #copy right part of main array to R
         R[i] = array[mid+i+1]
     i = 0
     j = 0
     k = start
-    while i < n1 and j < n2:
+    while i < size1 and j < size2:
         if L[i] <= R[j]:
             array[k] = L[i]
             i = i+1
@@ -52,12 +52,12 @@ def merge(array, start, mid, end):
             j = j+1
         k = k+1
 
-    while i < n1:
+    while i < size1:
         array[k] = L[i]
         i = i+1
         k = k+1
 
-    while j < n2:
+    while j < size2:
         array[k] = R[j]
         j = j+1
         k = k+1
