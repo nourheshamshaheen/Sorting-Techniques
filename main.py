@@ -23,6 +23,7 @@ def partition(array, start, end):
     array[i+1], array[end] = array[end], array[i+1] #put pivot in its correct place
     return i+1
 
+
 def merge_sort(array, start, end):
     if start < end:
         mid = start + (end - start) // 2  #same as (start + end)//2 but to prevent overflow
@@ -103,6 +104,15 @@ def insertion_sort(array):
             j -= 1
         array[j] = key
 
+
+def hybridMergeSort(array, start, end, threshold):
+    if start < end and end - start > threshold:
+        mid = start + (end - start) // 2
+        hybridMergeSort(array, start, mid, threshold)
+        hybridMergeSort(array, mid + 1, end, threshold)
+        hybridMerge(array, start, end, mid)
+    elif start < end and end - start <= threshold:
+        selection_sort(array)
 
 if __name__ == '__main__':
     a = generate_array(1000)
