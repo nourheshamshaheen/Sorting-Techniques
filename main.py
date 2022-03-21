@@ -81,6 +81,28 @@ def generate_array(size):
         array.append(random.randint(0, 1000))
     return array
 
+
+def selectionSort(array):
+    for j in range(0, len(array) - 1):
+        minIndex = j
+        for i in range(j, len(array)):
+            if array[i] < array[minIndex]:
+                minIndex = i
+                i += 1
+            if minIndex != j:
+                array[minIndex], array[j] = array[j], array[minIndex]
+
+
+def insertionSort(array):
+    for i in range(1, len(array)):
+        key = array[i]
+        j = i
+        while j > 0 and array[j - 1] > key:
+            array[j - 1], array[j] = array[j], array[j - 1]
+            j -= 1
+        array[j] = key
+
+
 if __name__ == '__main__':
     a = generate_array(999)
     n = len(a)
@@ -90,6 +112,5 @@ if __name__ == '__main__':
     print(str(b))
 
 
-print('I am sad')
 
 
