@@ -43,6 +43,7 @@ def merge(array, start, mid, end):
     i = 0
     j = 0
     k = start
+    #merge both arrays: put elements in order in main array
     while i < size1 and j < size2:
         if L[i] <= R[j]:
             array[k] = L[i]
@@ -52,6 +53,7 @@ def merge(array, start, mid, end):
             j = j+1
         k = k+1
 
+    #if one array is bigger than the other
     while i < size1:
         array[k] = L[i]
         i = i+1
@@ -65,14 +67,14 @@ def merge(array, start, mid, end):
 def kth_smallest(array, start, end, k):
     if start >= end:
         return array[start]
-    r = randomized_partition(array, start, end)
-    i = r-start+1
-    if i == k:
-        return array[r]
-    elif i < k:
-        return kth_smallest(array, r+1, end, k-i)
-    else:
-        return kth_smallest(array, start, r-1, k)
+    pivot = randomized_partition(array, start, end) #partition around pivot
+    rank = pivot-start+1 #get rank of pivot (if start doesn't equal 0)
+    if rank == k: #if rank of pivot is the same as demanded
+        return array[pivot]
+    elif rank < k: #if rank of pivot smaller than demanded recurse on right part of array while changing k to be k-rank
+        return kth_smallest(array, pivot+1, end, k-rank)
+    else: #if rank of pivot greater than demanded recurse on left part of array
+        return kth_smallest(array, start, pivot-1, k)
 
 def generate_array(size):
     array = []
@@ -84,19 +86,19 @@ def generate_array(size):
 def selection_sort(array):
     for j in range(0, len(array) - 1):
         minIndex = j
-        for i in range(j, len(array)):
+        for i in range(j, len(array)): #loop on elements, find smallest, put it at i then increment i
             if array[i] < array[minIndex]:
                 minIndex = i
                 i += 1
-            if minIndex != j:
+            if minIndex != j: #swap smallest element with current element
                 array[minIndex], array[j] = array[j], array[minIndex]
 
 
 def insertion_sort(array):
-    for i in range(1, len(array)):
-        key = array[i]
+    for i in range(1, len(array)): #assume first element is in right position and insert around it
+        key = array[i] #holder for next element
         j = i
-        while j > 0 and array[j - 1] > key:
+        while j > 0 and array[j - 1] > key: #move elements of array before key that are greater than key to position after it
             array[j - 1], array[j] = array[j], array[j - 1]
             j -= 1
         array[j] = key
