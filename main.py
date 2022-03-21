@@ -1,4 +1,5 @@
 import random
+import matplotlib
 
 def quicksort(array, start, end):
     if len(array) == 1: #base case
@@ -77,13 +78,6 @@ def kth_smallest(array, start, end, k):
     else: #if rank of pivot greater than demanded recurse on left part of array
         return kth_smallest(array, start, pivot-1, k)
 
-def generate_array(size):
-    array = []
-    for i in range(1, size):
-        array.append(random.randint(0, 30000))
-    return array
-
-
 def selection_sort(array):
     for j in range(0, len(array) - 1):
         minIndex = j
@@ -105,20 +99,60 @@ def insertion_sort(array):
         array[j] = key
 
 
-def hybridMergeSort(array, start, end, threshold):
-    if start < end and end - start > threshold:
-        mid = start + (end - start) // 2
-        hybridMergeSort(array, start, mid, threshold)
-        hybridMergeSort(array, mid + 1, end, threshold)
-        hybridMerge(array, start, end, mid)
-    elif start < end and end - start <= threshold:
+def hybrid_merge(array, start, mid, end, threshold):
+    size1 = mid - start + 1
+    size2 = end - mid
+    if size1+size2 <= threshold:
         selection_sort(array)
+        return
+    L = [0] * (size1) #initialize L array with zeros
+    R = [0] * (size2) #initialize R array with zeros
+
+    for i in range(0, size1): #copy left part of main array to L
+        L[i] = array[start+i]
+    for i in range(0, end-mid): #copy right part of main array to R
+        R[i] = array[mid+i+1]
+    i = 0
+    j = 0
+    k = start
+    #merge both arrays: put elements in order in main array
+    while i < size1 and j < size2:
+        if L[i] <= R[j]:
+            array[k] = L[i]
+            i = i+1
+        else:
+            array[k] = R[j]
+            j = j+1
+        k = k+1
+
+    #if one array is bigger than the other
+    while i < size1:
+        array[k] = L[i]
+        i = i+1
+        k = k+1
+
+    while j < size2:
+        array[k] = R[j]
+        j = j+1
+        k = k+1
+
+def hybrid_merge_sort(array, start, end, threshold):
+    if start < end:
+        mid = start + (end - start) // 2
+        hybrid_merge_sort(array, start, mid, threshold)
+        hybrid_merge_sort(array, mid + 1, end, threshold)
+        hybrid_merge(array, start, end, mid, threshold)
+
+def generate_array(size, max):
+    array = []
+    for i in range(1, size):
+        array.append(random.randint(0, max))
+    return array
 
 if __name__ == '__main__':
-    a = generate_array(1000)
-    a_copymerge = a.copy()
+    a = generate_array(50, 100)
     n = len(a)
-    merge_sort(a_copymerge, 0, n-1)
+    hybrid_merge_sort(a, 0, n-1, 5)
     print(str(a))
 
 
