@@ -69,9 +69,9 @@ def kth_smallest(array, start, end, k):
         if rank == k:
             return array[pivot]
         elif rank < k:
-            return kth_smallest(array, pivot+1, end, k-rank)
+            return kth_smallest(array[pivot+1:end], pivot+1, end, k-rank)
         else:
-            return kth_smallest(array, start, rank-1, k)
+            return kth_smallest(array[start:rank-1], start, rank-1, k)
     else:
         return array[start]
 
@@ -84,8 +84,6 @@ def generate_array(size):
 if __name__ == '__main__':
     a = generate_array(999)
     n = len(a)
-    print(str(n))
-    b = kth_smallest(a, 0, n-1, 7)
-    quicksort(a, 0, n-1)
-    print(str(b))
+    selectionsort(a, 0, n-1)
+    print(str(a))
 
