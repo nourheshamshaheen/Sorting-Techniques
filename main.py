@@ -63,16 +63,17 @@ def merge(array, start, mid, end):
         k = k+1
 
 def kth_smallest(array, start, end, k):
-    if start >= end:
-        return array[start]
-    r = randomized_partition(array, start, end)
-    i = r-start+1
-    if i == k:
-        return array[r]
-    elif i < k:
-        return kth_smallest(array, r+1, end, k-i)
+    if start < end:
+        pivot = randomized_partition(array, start, end)
+        rank = pivot-start+1
+        if rank == k:
+            return array[pivot]
+        elif rank < k:
+            return kth_smallest(array, pivot+1, end, k-rank)
+        else:
+            return kth_smallest(array, start, rank-1, k)
     else:
-        return kth_smallest(array, start, r-1, k)
+        return array[start]
 
 def generate_array(size):
     array = []
@@ -81,10 +82,10 @@ def generate_array(size):
     return array
 
 if __name__ == '__main__':
-    a = [1, 4, 5, 8, 0, 2, 3]
+    a = generate_array(999)
     n = len(a)
     print(str(n))
-    b = kth_smallest(a, 0, n-1, 2)
+    b = kth_smallest(a, 0, n-1, 7)
     quicksort(a, 0, n-1)
     print(str(b))
 
