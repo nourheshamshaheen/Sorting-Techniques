@@ -77,7 +77,7 @@ def kth_smallest(array, start, end, k):
 def generate_array(size):
     array = []
     for i in range(1, size):
-        array.append(random.randint(0, 1000))
+        array.append(random.randint(0, 30000))
     return array
 
 
@@ -103,13 +103,10 @@ def insertion_sort(array):
 
 
 if __name__ == '__main__':
-    a = [1, 4, 5, 8, 0, 2, 3]
+    a = generate_array(1000)
+    a_copymerge = a.copy()
     n = len(a)
-    print(str(n))
-    b = kth_smallest(a, 0, n-1, 2)
-    quicksort(a, 0, n-1)
-    print(str(b))
-    print('I hate el fala7een')
-
+    merge_sort(a_copymerge, 0, n-1)
+    print(str(a))
 
 
