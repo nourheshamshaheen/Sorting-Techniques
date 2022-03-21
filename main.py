@@ -1,5 +1,4 @@
 import random
-import matplotlib
 
 def quicksort(array, start, end):
     if len(array) == 1: #base case
@@ -156,15 +155,17 @@ def insertion_sort(array):
 #         merge(array, start, end, mid)
 
 def hybrid_merge_sort(array, start, end, threshold):
-    if start < end:
-        if end-start+1 > threshold:
-            mid = start + (end - start) // 2
-            hybrid_merge_sort(array, start, mid, threshold)
-            hybrid_merge_sort(array, mid + 1, end, threshold)
-            merge(array, start, end, mid)
-        else:
+    if start < end :
+        if end - start  <= threshold:
             selection_sort_modified(array, start, end)
-            print("inside recursion"+str(array[start:end]))
+        else:
+            mid = start + (end - start) // 2
+            hybrid_merge_sort(array, start, mid,threshold)
+            hybrid_merge_sort(array, mid + 1, end,threshold)
+            merge(array, start, mid, end)
+
+
+
 
 
 def generate_array(size, max):
@@ -176,7 +177,8 @@ def generate_array(size, max):
 if __name__ == '__main__':
     a = generate_array(20, 100)
     n = len(a)
-    hybrid_merge_sort(a, 0, n-1, 6)
+    print(a)
+    hybrid_merge_sort(a, 0, n-1,5)
     print(str(a))
 
 
