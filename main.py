@@ -81,7 +81,7 @@ def generate_array(size):
     return array
 
 
-def selectionSort(array):
+def selection_sort(array):
     for j in range(0, len(array) - 1):
         minIndex = j
         for i in range(j, len(array)):
@@ -92,7 +92,7 @@ def selectionSort(array):
                 array[minIndex], array[j] = array[j], array[minIndex]
 
 
-def insertionSort(array):
+def insertion_sort(array):
     for i in range(1, len(array)):
         key = array[i]
         j = i
