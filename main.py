@@ -79,14 +79,20 @@ def kth_smallest(array, start, end, k):
         return kth_smallest(array, start, pivot-1, k)
 
 def selection_sort(array):
-    for j in range(0, len(array) - 1):
+    for j in range(0, len(array)):
         minIndex = j
-        for i in range(j, len(array)): #loop on elements, find smallest, put it at i then increment i
+        for i in range(j+1, len(array)): #loop on elements, find smallest, put it at i then increment i
             if array[i] < array[minIndex]:
                 minIndex = i
-                i += 1
-            if minIndex != j: #swap smallest element with current element
-                array[minIndex], array[j] = array[j], array[minIndex]
+        array[minIndex], array[j] = array[j], array[minIndex]#swap smallest element with current element
+
+def selection_sort_modified(array, start, end):
+    for j in range(start, end+1):
+        minIndex = j
+        for i in range(j+1, end+1): #loop on elements, find smallest, put it at i then increment i
+            if array[i] < array[minIndex]:
+                minIndex = i
+        array[minIndex], array[j] = array[j], array[minIndex]
 
 
 def insertion_sort(array):
@@ -99,49 +105,67 @@ def insertion_sort(array):
         array[j] = key
 
 
-def hybrid_merge(array, start, mid, end, threshold):
-    size1 = mid - start + 1
-    size2 = end - mid
-    if size1+size2 <= threshold:
-        selection_sort(array)
-        return
-    L = [0] * (size1) #initialize L array with zeros
-    R = [0] * (size2) #initialize R array with zeros
+# def hybrid_merge(array, start, mid, end, threshold):
+#     size1 = mid - start + 1
+#     size2 = end - mid
+#     if size1+size2 <= threshold:
+#         selection_sort(array)
+#         return
+#     L = [0] * (size1) #initialize L array with zeros
+#     R = [0] * (size2) #initialize R array with zeros
+#
+#     for i in range(0, size1): #copy left part of main array to L
+#         L[i] = array[start+i]
+#     for i in range(0, end-mid): #copy right part of main array to R
+#         R[i] = array[mid+i+1]
+#     i = 0
+#     j = 0
+#     k = start
+#     #merge both arrays: put elements in order in main array
+#     while i < size1 and j < size2:
+#         if L[i] <= R[j]:
+#             array[k] = L[i]
+#             i = i+1
+#         else:
+#             array[k] = R[j]
+#             j = j+1
+#         k = k+1
+#
+#     #if one array is bigger than the other
+#     while i < size1:
+#         array[k] = L[i]
+#         i = i+1
+#         k = k+1
+#
+#     while j < size2:
+#         array[k] = R[j]
+#         j = j+1
+#         k = k+1
 
-    for i in range(0, size1): #copy left part of main array to L
-        L[i] = array[start+i]
-    for i in range(0, end-mid): #copy right part of main array to R
-        R[i] = array[mid+i+1]
-    i = 0
-    j = 0
-    k = start
-    #merge both arrays: put elements in order in main array
-    while i < size1 and j < size2:
-        if L[i] <= R[j]:
-            array[k] = L[i]
-            i = i+1
-        else:
-            array[k] = R[j]
-            j = j+1
-        k = k+1
-
-    #if one array is bigger than the other
-    while i < size1:
-        array[k] = L[i]
-        i = i+1
-        k = k+1
-
-    while j < size2:
-        array[k] = R[j]
-        j = j+1
-        k = k+1
+# def hybrid_merge_sort(array, start, end, threshold):
+#     if start < end:
+#         mid = start + (end - start) // 2
+#         if(mid - start) > threshold:
+#             hybrid_merge_sort(array, start, mid, threshold)
+#         else:
+#             selection_sort(array)
+#         if(end-mid-1) > threshold:
+#             hybrid_merge_sort(array, mid + 1, end, threshold)
+#         else:
+#             selection_sort(array)
+#         merge(array, start, end, mid)
 
 def hybrid_merge_sort(array, start, end, threshold):
     if start < end:
-        mid = start + (end - start) // 2
-        hybrid_merge_sort(array, start, mid, threshold)
-        hybrid_merge_sort(array, mid + 1, end, threshold)
-        hybrid_merge(array, start, end, mid, threshold)
+        if end-start+1 > threshold:
+            mid = start + (end - start) // 2
+            hybrid_merge_sort(array, start, mid, threshold)
+            hybrid_merge_sort(array, mid + 1, end, threshold)
+            merge(array, start, end, mid)
+        else:
+            selection_sort_modified(array, start, end)
+            print("inside recursion"+str(array[start:end]))
+
 
 def generate_array(size, max):
     array = []
@@ -150,9 +174,9 @@ def generate_array(size, max):
     return array
 
 if __name__ == '__main__':
-    a = generate_array(50, 100)
+    a = generate_array(20, 100)
     n = len(a)
-    hybrid_merge_sort(a, 0, n-1, 5)
+    hybrid_merge_sort(a, 0, n-1, 6)
     print(str(a))
 
 
