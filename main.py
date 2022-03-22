@@ -1,5 +1,6 @@
 import random
 import time
+import matplotlib.pyplot as plt
 
 def quicksort(array, start, end):
     if len(array) == 1: #base case
@@ -111,8 +112,8 @@ def hybrid_merge_sort(array, start, end, threshold):
             selection_sort_modified(array, start, end)
         else:
             mid = start + (end - start) // 2
-            hybrid_merge_sort(array, start, mid,threshold)
-            hybrid_merge_sort(array, mid + 1, end,threshold)
+            hybrid_merge_sort(array, start, mid, threshold)
+            hybrid_merge_sort(array, mid + 1, end, threshold)
             merge(array, start, mid, end)
 
 
@@ -123,31 +124,49 @@ def generate_array(size, max):
     return array
 
 if __name__ == '__main__':
-    a = generate_array(10000, 100)
-    a1 = a
-    a2 = a
-    a3 = a
-    n = len(a)
 
-    start = time.time()
-    quicksort(a, 0, n - 1)
-    end = time.time()
-    print(*['Time elapsed for quicksort = ', end - start])
+    sizes = [1000, 25000, 50000, 75000, 100000]
+    quicksort_times = []
+    merge_sort_times = []
+    selection_sort_times = []
+    insertion_sort_times = []
 
-    start = time.time()
-    merge_sort(a1, 0, n - 1)
-    end = time.time()
-    print(*['Time elapsed for mergesort = ', end - start])
+    for size in sizes:
+        a = generate_array(size, 1000)
+        a1 = a.copy()
+        a2 = a.copy()
+        a3 = a.copy()
+        n = len(a)
 
-    start = time.time()
-    selection_sort(a2)
-    end = time.time()
-    print(*['Time elapsed for selection sort = ', end - start])
+        start = time.time()
+        quicksort(a, 0, n - 1)
+        end = time.time()
+        quicksort_times.append(end-start)
+        print(*['Time elapsed for quicksort = ', end - start])
+
+        start = time.time()
+        merge_sort(a1, 0, n - 1)
+        end = time.time()
+        merge_sort_times.append(end-start)
+        print(*['Time elapsed for mergesort = ', end - start])
+
+        start = time.time()
+        selection_sort(a2)
+        end = time.time()
+        selection_sort_times.append(end-start)
+        print(*['Time elapsed for selection sort = ', end - start])
+
+        start = time.time()
+        insertion_sort(a3)
+        end = time.time()
+        insertion_sort_times.append(end-start)
+        print(*['Time elapsed for insertion sort = ', end - start])
 
 
-    start = time.time()
-    insertion_sort(a3)
-    end= time.time()
-    print(*['Time elapsed for insertion sort = ', end - start])
-
-
+    # plot lines
+    plt.plot(sizes, quicksort_times, label="Quicksort")
+    plt.plot(sizes, merge_sort_times, label="Mergesort")
+    plt.plot(sizes, quicksort_times, label="Selection Sort")
+    plt.plot(sizes, insertion_sort_times, label="Insertion Sort")
+    plt.legend()
+    plt.show()
