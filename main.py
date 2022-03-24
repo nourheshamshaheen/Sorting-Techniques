@@ -165,7 +165,7 @@ if __name__ == '__main__':
     # plot lines
     plt.plot(sizes, quicksort_times, label="Quicksort")
     plt.plot(sizes, merge_sort_times, label="Mergesort")
-    plt.plot(sizes, quicksort_times, label="Selection Sort")
+    plt.plot(sizes, selection_sort_times, label="Selection Sort")
     plt.plot(sizes, insertion_sort_times, label="Insertion Sort")
     plt.legend()
     plt.show()
