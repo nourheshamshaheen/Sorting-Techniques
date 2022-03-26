@@ -30,7 +30,7 @@ isn’t incremented. At the end, the pivot is swapped with the element of index 
 correct position in the array, and recursively each of the two formed sub-arrays is traversed
 and changed.
 
-Code snippets:
+**Code snippets:**
 ```
 def quicksort(array, start, end):
   if len(array) == 1: #base case
@@ -40,12 +40,16 @@ def quicksort(array, start, end):
   partition around it
   quicksort(array, start, q-1) #recurse on part of array smaller than pivot
   quicksort(array, q+1, end) #recurse on part of array greater than pivot
-  
+```
+
+```  
 def randomized_partition(array, start, end):
   i = random.randint(start, end) #choose random element and swap it with end
   array[end], array[i] = array[i], array[end]
   return partition(array, start, end) #call partition on modified array
+```
 
+```
 def partition(array, start, end):
   i = start-1
   x = array[end] #choose end element as pivot
@@ -56,4 +60,65 @@ def partition(array, start, end):
   array[i+1], array[end] = array[end], array[i+1] #put pivot in its correct place
   return i+15
 ```
+## Merge Sort: Implementation of MergeSort algorithm
+Merge Sort is a divide and conquer sorting algorithm, it divides the input array into two
+halves and calls itself recursively to sort each of those halves and then combines them
+together along with sorting.
+The process is as follows:
+1) The middle index is found and the array is subdivided into two sub arrays
+2) Each of the two halves is broken down into single elements via recursively calling the
+mergeSort() function.
+3) The conquer part is using the merge() function that sorts every sub-array and
+merges it with the next one until the final array is completely sorted.
 
+**Merging algorithm:**
+The merge sort is all about the merging algorithm, it breaks the array into two sub-arrays
+stored temporarily in L[] and R[] recursively until every element is compared to the one
+next to it, they’re stored correctly and recursively combines the individual arrays until the
+last one is completely sorted.
+
+**Code Snippets:**
+```
+def merge(array, start, mid, end):
+  size1 = mid - start + 1
+  size2 = end - mid
+  L = [0] * (size1) #initialize L array with zeros
+  R = [0] * (size2) #initialize R array with zeros
+  for i in range(0, size1): #copy left part of main array to L
+    L[i] = array[start+i]
+  for i in range(0, end-mid): #copy right part of main array to R
+    R[i] = array[mid+i+1]
+  
+  i = 0
+  j = 0
+  k = start
+  #merge both arrays: put elements in order in main array
+  while i < size1 and j < size2:
+    if L[i] <= R[j]:
+      array[k] = L[i]
+      i = i+1
+    else:
+      array[k] = R[j]
+      j = j+1
+    k = k+1
+  #if one array is bigger than the other
+  while i < size1:
+    array[k] = L[i]
+    i = i+1
+    k = k+1
+  while j < size2:
+    array[k] = R[j]
+    j = j+1
+    k = k+1
+ ```
+
+## Selection Sort: Implementation of Selection Sort algorithm
+```
+def selection_sort(array):
+  for j in range(0, len(array)):
+    minIndex = j
+  for i in range(j+1, len(array)):  # loop on elements, find smallest, put it at i then increment i
+    if array[i] < array[minIndex]:
+    minIndex = i
+  array[minIndex], array[j] = array[j], array[minIndex]  # swap smallest element with current element
+```
