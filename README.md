@@ -145,6 +145,7 @@ def insertion_sort(array):
 
 
 ## Hybrid Merge and Selection Algorithm 
+```
 def hybrid_merge_sort(array, start, end, threshold):
   if start < end :
     if end - start <= threshold:
@@ -154,8 +155,10 @@ def hybrid_merge_sort(array, start, end, threshold):
     hybrid_merge_sort(array, start, mid,threshold)
     hybrid_merge_sort(array, mid + 1, end,threshold)
     merge(array, start, mid, end)
+```
 
 ## Find kth element in an unsorted array
+```
 def kth_smallest(array, start, end, k):
   if start >= end:
     return array[start]
@@ -167,14 +170,8 @@ def kth_smallest(array, start, end, k):
     return kth_smallest(array, pivot+1, end, k-rank)
   else: #if rank of pivot greater than demanded recurse on left part of array
     return kth_smallest(array, start, pivot-1, k)
+```
 
-n = 1000
-n = 25000
-n = 500008
-n = 75000
-n = 100000
-Using matplotlib in python, we plotted the previous times against array sizes:
-Since, mergesort and quicksort are similar asymptotically, we plotted them together:9
 
 
 
