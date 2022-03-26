@@ -1,6 +1,6 @@
 # Sorting-Techniques
 
-Assignment for the Data Structures II course in AU. Contributors: Nour Hesham, Lara Hossam
+Assignment for the Data Structures II course in Alexandria University. Contributors: Nour Hesham, Lara Hossam
 
 ## Abstract
 Sorting is one of the most fundamental algorithmic problems within computer science. It
