@@ -123,49 +123,108 @@ def generate_array(size, max):
     return array
 
 if __name__ == '__main__':
+    choice = input("Choose: 1- Run like report (can take a lot of time), 2- Normal Run ")
+    choice = int(choice)
 
-    sizes = [1000, 25000, 50000, 75000, 100000]
-    quicksort_times = []
-    merge_sort_times = []
-    selection_sort_times = []
-    insertion_sort_times = []
+    if choice == 1:
+        sizes = [1000, 25000, 50000, 75000, 100000]
+        quicksort_times = []
+        merge_sort_times = []
+        selection_sort_times = []
+        insertion_sort_times = []
 
-    for size in sizes:
-        a = generate_array(size, 1000)
-        a1 = a.copy()
-        a2 = a.copy()
-        a3 = a.copy()
+        for size in sizes:
+            a = generate_array(size, 1000)
+            a1 = a.copy()
+            a2 = a.copy()
+            a3 = a.copy()
+            n = len(a)
+
+            start = time.time()
+            quicksort(a, 0, n - 1)
+            end = time.time()
+            quicksort_times.append(end-start)
+            print(*['Time elapsed for quicksort = ', end - start])
+
+            start = time.time()
+            merge_sort(a1, 0, n - 1)
+            end = time.time()
+            merge_sort_times.append(end-start)
+            print(*['Time elapsed for mergesort = ', end - start])
+
+            start = time.time()
+            selection_sort(a2)
+            end = time.time()
+            selection_sort_times.append(end-start)
+            print(*['Time elapsed for selection sort = ', end - start])
+
+            start = time.time()
+            insertion_sort(a3)
+            end = time.time()
+            insertion_sort_times.append(end-start)
+            print(*['Time elapsed for insertion sort = ', end - start])
+
+        # plot lines
+        plt.plot(sizes, quicksort_times, label="Quicksort")
+        plt.plot(sizes, merge_sort_times, label="Mergesort")
+        plt.plot(sizes, selection_sort_times, label="Selection Sort")
+        plt.plot(sizes, insertion_sort_times, label="Insertion Sort")
+        plt.legend()
+        plt.show()
+
+    elif choice == 2:
+        size = int(input("Enter array size: "))
+        max_value = int(input("Enter max value of values in array: "))
+        sort = int(input("Which sort? 1- Quick 2- Merge 3- Selection 4 - Insertion 5- ALL"))
+        a = generate_array(size, max_value)
         n = len(a)
 
-        start = time.time()
-        quicksort(a, 0, n - 1)
-        end = time.time()
-        quicksort_times.append(end-start)
-        print(*['Time elapsed for quicksort = ', end - start])
 
-        start = time.time()
-        merge_sort(a1, 0, n - 1)
-        end = time.time()
-        merge_sort_times.append(end-start)
-        print(*['Time elapsed for mergesort = ', end - start])
+        if sort == 1:
+            start = time.time()
+            quicksort(a, 0, n-1)
+            end = time.time()
+            print("Time elapsed for quicksort:" + str(end-start))
 
-        start = time.time()
-        selection_sort(a2)
-        end = time.time()
-        selection_sort_times.append(end-start)
-        print(*['Time elapsed for selection sort = ', end - start])
+        elif sort == 2:
+            start = time.time()
+            merge_sort(a, 0, n-1)
+            end = time.time()
+            print("Time elapsed for mergesort:" + str(end-start))
+        elif sort == 3:
+            start = time.time()
+            selection_sort(a, 0, n-1)
+            end = time.time()
+            print("Time elapsed for selection sort:" + str(end-start))
+        elif sort == 4:
+            start = time.time()
+            insertion_sort(a, 0, n-1)
+            end = time.time()
+            print("Time elapsed for insertion sort:" + str(end-start))
+        elif sort == 5:
+            a1 = a.copy()
+            a2 = a.copy()
+            a3 = a.copy()
+            n = len(a)
+            start = time.time()
+            quicksort(a, 0, n - 1)
+            end = time.time()
+            print(*['Time elapsed for quicksort = ', end - start])
 
-        start = time.time()
-        insertion_sort(a3)
-        end = time.time()
-        insertion_sort_times.append(end-start)
-        print(*['Time elapsed for insertion sort = ', end - start])
+            start = time.time()
+            merge_sort(a1, 0, n - 1)
+            end = time.time()
+            print(*['Time elapsed for mergesort = ', end - start])
 
+            start = time.time()
+            selection_sort(a2)
+            end = time.time()
+            print(*['Time elapsed for selection sort = ', end - start])
 
-    # plot lines
-    plt.plot(sizes, quicksort_times, label="Quicksort")
-    plt.plot(sizes, merge_sort_times, label="Mergesort")
-    plt.plot(sizes, selection_sort_times, label="Selection Sort")
-    plt.plot(sizes, insertion_sort_times, label="Insertion Sort")
-    plt.legend()
-    plt.show()
+            start = time.time()
+            insertion_sort(a3)
+            end = time.time()
+            print(*['Time elapsed for insertion sort = ', end - start])
+
+        else:
+            print("Wrong choice.")
