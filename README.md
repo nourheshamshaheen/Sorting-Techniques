@@ -122,3 +122,59 @@ def selection_sort(array):
     minIndex = i
   array[minIndex], array[j] = array[j], array[minIndex]  # swap smallest element with current element
 ```
+
+## Insertion Sort: Implementation of Insertion Sort algorithm
+```
+def insertion_sort(array):
+  for i in range(1, len(array)): # assume first element is in right position and insert around it
+    key = array[i] #holder for next element
+    j = i
+    while j > 0 and array[j - 1] > key: # move elements of array before key that are greater than key to position after it
+      array[j - 1], array[j] = array[j], array[j - 1]
+      j -= 1
+    array[j] = key
+```
+## Time Comparison Report
+
+| Algorithm   | n = 1000 | n = 25000 | n = 50000 | n = 75000 | n = 100000 |
+| ----------- | ---------| --------- | --------- | --------- | --------- |
+| Quick | 0.0 | 0.2298 | 0.9018 | 1.6782 | 2.5633 |
+| Merge | 0.009 | 0.2497 | 0.6565 | 0.8779 | 1.3132 |
+| Selection | 0.0599 | 45.917 | 194.282 | 457.412| 633.3568 |
+| Insertion | 0.0899| 75.925 | 322.864 | 768.602 | 984.9915 |
+
+
+## Hybrid Merge and Selection Algorithm 
+def hybrid_merge_sort(array, start, end, threshold):
+  if start < end :
+    if end - start <= threshold:
+    selection_sort_modified(array, start, end)
+  else:
+    mid = start + (end - start) // 2
+    hybrid_merge_sort(array, start, mid,threshold)
+    hybrid_merge_sort(array, mid + 1, end,threshold)
+    merge(array, start, mid, end)
+
+## Find kth element in an unsorted array
+def kth_smallest(array, start, end, k):
+  if start >= end:
+    return array[start]
+  pivot = randomized_partition(array, start, end) #partition around pivot
+  rank = pivot-start+1 #get rank of pivot (if start doesn't equal 0)
+  if rank == k: #if rank of pivot is the same as demanded
+    return array[pivot]
+  elif rank < k: #if rank of pivot smaller than demanded recurse on right part of array while changing k to be k-rank
+    return kth_smallest(array, pivot+1, end, k-rank)
+  else: #if rank of pivot greater than demanded recurse on left part of array
+    return kth_smallest(array, start, pivot-1, k)
+
+n = 1000
+n = 25000
+n = 500008
+n = 75000
+n = 100000
+Using matplotlib in python, we plotted the previous times against array sizes:
+Since, mergesort and quicksort are similar asymptotically, we plotted them together:9
+
+
+
